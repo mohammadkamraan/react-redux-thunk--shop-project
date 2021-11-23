@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import OnllineShope from '../images/OnlineShopping.png';
 
 
-const SectionOne = () => {
+const MikiKala = () => {
     return (
         <div className='container '>
             <div className='row align-items-center'>
@@ -26,4 +26,4 @@ const SectionOne = () => {
     )
 }
 
-export default SectionOne;
+export default MikiKala;

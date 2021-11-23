@@ -6,7 +6,7 @@ import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from '
 const Header = () => {
     return (
         <header>
-            <Navbar collapseOnSelect expand="lg" bg="white" variant="light" className='shadow ' sticky="top">
+            <Navbar collapseOnSelect expand="lg" bg="white" variant="light" className='shadow position-sticky sticky-top '>
                 <Container >
                     <Navbar.Brand className='text-danger' href="#home">miki kala</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />

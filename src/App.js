@@ -2,13 +2,16 @@ import './App.css';
 
 //import Comps
 import Navbar from './Components/Navbar';
-import SectionOne from './Components/SectionOne';
+import MikiKala from './Components/MikiKala';
+import ImgCarousel from './Components/ImgCarousel';
+
 
 function App() {
   return (
     <div className="App">
       <Navbar />
-      <SectionOne />
+      <MikiKala />
+      <ImgCarousel />
     </div>
   );
 }
