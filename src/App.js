@@ -3,15 +3,19 @@ import './App.css';
 //import Comps
 import Navbar from './Components/Navbar';
 import MikiKala from './Components/MikiKala';
-import ImgCarousel from './Components/ImgCarousel';
+import CategoryCards from './Components/CategoryCards';
+import LoginSection from './Components/LoginSection';
+import Footer from './Components/Footer';
 
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Navbar />
       <MikiKala />
-      <ImgCarousel />
+      <CategoryCards />
+      <LoginSection />
+      <Footer />
     </div>
   );
 }
