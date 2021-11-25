@@ -1,4 +1,4 @@
-export const menCards = menClothes => ({
-    type: 'sendManClothes',
-    menClothes
+export const product = products => ({
+    type: 'sendProducts',
+    products
 })
