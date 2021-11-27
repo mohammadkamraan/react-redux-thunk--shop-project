@@ -4,12 +4,17 @@ import React, { useEffect, useState } from "react";
 //import axios
 import axios from "axios";
 
+// import Router
+import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 
 //import redux hook
 import { useDispatch, useSelector } from "react-redux";
 
 //import bootstrap
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+
+
 
 
 const ProductCards = () => {
@@ -17,53 +22,60 @@ const ProductCards = () => {
     const [menClothing, setManCloth] = useState([])
     const [womenClothing, setWomenCloth] = useState([])
     const [electronic, setElectronic] = useState([])
-    const [jeweleryes, setJeweleryes] = useState([])
+    const [jeweleries, setJeweleries] = useState([])
     const category = useSelector(state => state.categories)
 
     //use redux hooks
     const dispath = useDispatch()
+
+    //use Router hook
+    const params = useParams()
+
+    console.log(params.category)
 
 
     const jsonHandler = (data) => {
         data.map(item => {
             switch (item.category) {
                 case 'jewelery':
-                    setJeweleryes([item])
+                    let jeweleriess = jeweleries
+                    jeweleries.push(item)
+                    setJeweleries(jeweleriess)
                     break;
                 case "men's clothing":
-                    setManCloth([item])
+                    setManCloth(item)
                     break;
                 case "women's clothing":
-                    setWomenCloth([item])
+                    setWomenCloth(item)
                     break;
                 case 'electronics':
-                    setElectronic([item])
+                    setElectronic(item)
                     break;
                 default:
                     break;
             }
         })
     }
-
     const showJewelery = () => {
-        return (jeweleryes.map(items => {
-            return (< div className='container align-items-center' >
-                <div className='row'>
-                    <div className='col-md-3'>
-                        <Card className='me-3' style={{
+        return (jeweleries.map(items => {
+            return (
+                <div className='col-md-3'>
+                    <Link to={`/product`} className='text-dark text-decoration-none'>
+                        <Card className='me-3  mt-5' style={{
                             backgroundColor: '#3ff7a5'
                         }} >
-                            <Card.Img variant="top" src={items.image} />
+                            <Card.Img variant="top" className="img-fluid"
+                                style={{ height: '190px' }}
+                                src={items.image} />
                             <Card.Body>
-                                <Card.Title>{items.title}</Card.Title>
-                                <Card.Text>
-                                    {items.description}
+                                <Card.Text className='h6'>
+                                    {items.title}
                                 </Card.Text>
                             </Card.Body>
                         </Card>
-                    </div>
+                    </Link>
                 </div>
-            </div >)
+            )
         }))
 
     }
@@ -90,7 +102,7 @@ const ProductCards = () => {
 
 
     const renderCards = () => {
-        switch (category) {
+        switch (params.category) {
             case "jewelery":
                 return showJewelery()
             case "men's clothing":
@@ -105,7 +117,11 @@ const ProductCards = () => {
 
     return (
         <>
-            {renderCards()}
+            < div className='container align-items-center' >
+                <div className='row'>
+                    {renderCards()}
+                </div>
+            </div>
         </>
     )
 }
