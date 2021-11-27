@@ -23,7 +23,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path='/' exact element={<Home />} />
-        <Route path={`./${category}`} element={<ProductCards />} />
+        <Route path='/category/:category' element={<ProductCards />} />
       </Routes>
       <Footer />
     </>

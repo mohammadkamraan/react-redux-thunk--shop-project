@@ -20,8 +20,6 @@ const ProductCards = () => {
     const [jeweleryes, setJeweleryes] = useState([])
     const category = useSelector(state => state.categories)
 
-    console.log(category)
-
     //use redux hooks
     const dispath = useDispatch()
 
@@ -47,6 +45,41 @@ const ProductCards = () => {
         })
     }
 
+    const showJewelery = () => {
+        return (jeweleryes.map(items => {
+            return (< div className='container align-items-center' >
+                <div className='row'>
+                    <div className='col-md-3'>
+                        <Card className='me-3' style={{
+                            backgroundColor: '#3ff7a5'
+                        }} >
+                            <Card.Img variant="top" src={items.image} />
+                            <Card.Body>
+                                <Card.Title>{items.title}</Card.Title>
+                                <Card.Text>
+                                    {items.description}
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                </div>
+            </div >)
+        }))
+
+    }
+    const showMenClothing = () => {
+        console.log('man')
+        return <h2>hellow man</h2>
+    }
+    const showWomenClothing = () => {
+        console.log('women')
+        return <h2>hellow Women</h2>
+    }
+    const showElectronics = () => {
+        console.log('EL')
+        return <h2>hellow El</h2>
+    }
+
     useEffect(() => {
         axios.get('https://fakestoreapi.com/products')
             .then(response => {
@@ -55,101 +88,21 @@ const ProductCards = () => {
             .catch(err => { console.log(err) })
     }, [])
 
-    console.log(jeweleryes)
 
     const renderCards = () => {
         switch (category) {
             case "jewelery":
-                jeweleryes.map(items => {
-
-                    <div className='container align-items-center' >
-                        <div className='row'>
-                            <div className='col-md-3'>
-                                <Card className='mt-5 me-3' style={{
-                                    backgroundColor: '#3ff7a5'
-                                }} >
-                                    <Card.Img variant="top" src={items.image} />
-                                    <Card.Body>
-                                        <Card.Title>{items.title}</Card.Title>
-                                        <Card.Text>
-                                            {items.description}
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </div>
-                        </div>
-                    </div>
-                })
-
-
+                return showJewelery()
             case "men's clothing":
-                menClothing.map(items => {
-
-                    <div className='container align-items-center' >
-                        <div className='row'>
-                            <div className='col-md-3'>
-                                <Card className='mt-5 me-3' style={{
-                                    backgroundColor: '#3ff7a5'
-                                }} >
-                                    <Card.Img variant="top" src={items.image} />
-                                    <Card.Body>
-                                        <Card.Title>{items.title}</Card.Title>
-                                        <Card.Text>
-                                            {items.description}
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </div>
-                        </div>
-                    </div>
-                })
+                return showMenClothing()
             case "women's clothing":
-                womenClothing.map(items => {
-
-                    <div className='container align-items-center' >
-                        <div className='row'>
-                            <div className='col-md-3'>
-                                <Card className='mt-5 me-3' style={{
-                                    backgroundColor: '#3ff7a5'
-                                }} >
-                                    <Card.Img variant="top" src={items.image} />
-                                    <Card.Body>
-                                        <Card.Title>{items.title}</Card.Title>
-                                        <Card.Text>
-                                            {items.description}
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </div>
-                        </div>
-                    </div>
-                })
+                return showWomenClothing()
             case "electronics":
-
-                electronic.map(items => {
-
-                    <div className='container align-items-center' >
-                        <div className='row'>
-                            <div className='col-md-3'>
-                                <Card className='mt-5 me-3' style={{
-                                    backgroundColor: '#3ff7a5'
-                                }} >
-                                    <Card.Img variant="top" src={items.image} />
-                                    <Card.Body>
-                                        <Card.Title>{items.title}</Card.Title>
-                                        <Card.Text>
-                                            {items.description}
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </div>
-                        </div>
-                    </div>
-                })
-            default:
-                break;
+                return showElectronics()
         }
     }
+
+
     return (
         <>
             {renderCards()}
