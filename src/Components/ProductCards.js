@@ -23,15 +23,13 @@ const ProductCards = () => {
     const [womenClothing, setWomenCloth] = useState([])
     const [electronic, setElectronic] = useState([])
     const [jeweleries, setJeweleries] = useState([])
-    const category = useSelector(state => state.categories)
+    const [allCategories, setAllCategories] = useState([])
 
     //use redux hooks
     const dispath = useDispatch()
 
     //use Router hook
     const params = useParams()
-
-    console.log(params.category)
 
 
     const jsonHandler = (data) => {
@@ -43,16 +41,20 @@ const ProductCards = () => {
                     setJeweleries(jeweleriess)
                     break;
                 case "men's clothing":
-                    setManCloth(item)
+                    let menCloth = menClothing
+                    menCloth.push(item)
+                    setManCloth(menCloth)
                     break;
                 case "women's clothing":
-                    setWomenCloth(item)
-                    break;
+                    let womanClothes = womenClothing
+                    womanClothes.push(item)
+                    setWomenCloth(womanClothes)
                 case 'electronics':
-                    setElectronic(item)
-                    break;
+                    let elec = electronic
+                    elec.push(item)
+                    setElectronic(elec)
                 default:
-                    break;
+                    setAllCategories(item)
             }
         })
     }
@@ -79,17 +81,72 @@ const ProductCards = () => {
         }))
 
     }
+
     const showMenClothing = () => {
-        console.log('man')
-        return <h2>hellow man</h2>
+        return (menClothing.map(items => {
+            return (
+                <div className='col-md-3'>
+                    <Link to={`/product`} className='text-dark text-decoration-none'>
+                        <Card className='me-3  mt-5' style={{
+                            backgroundColor: '#3ff7a5'
+                        }} >
+                            <Card.Img variant="top" className="img-fluid"
+                                style={{ height: '190px' }}
+                                src={items.image} />
+                            <Card.Body>
+                                <Card.Text className='h6'>
+                                    {items.title}
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Link>
+                </div>
+            )
+        }))
     }
     const showWomenClothing = () => {
-        console.log('women')
-        return <h2>hellow Women</h2>
+        return (womenClothing.map(items => {
+            return (
+                <div className='col-md-3'>
+                    <Link to={`/product`} className='text-dark text-decoration-none'>
+                        <Card className='me-3  mt-5' style={{
+                            backgroundColor: '#3ff7a5'
+                        }} >
+                            <Card.Img variant="top" className="img-fluid"
+                                style={{ height: '190px' }}
+                                src={items.image} />
+                            <Card.Body>
+                                <Card.Text className='h6'>
+                                    {items.title}
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Link>
+                </div>
+            )
+        }))
     }
     const showElectronics = () => {
-        console.log('EL')
-        return <h2>hellow El</h2>
+        return (electronic.map(items => {
+            return (
+                <div className='col-md-3'>
+                    <Link to={`/product`} className='text-dark text-decoration-none'>
+                        <Card className='me-3  mt-5' style={{
+                            backgroundColor: '#3ff7a5'
+                        }} >
+                            <Card.Img variant="top" className="img-fluid"
+                                style={{ height: '190px' }}
+                                src={items.image} />
+                            <Card.Body>
+                                <Card.Text className='h6'>
+                                    {items.title}
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Link>
+                </div>
+            )
+        }))
     }
 
     useEffect(() => {
@@ -99,6 +156,8 @@ const ProductCards = () => {
             })
             .catch(err => { console.log(err) })
     }, [])
+
+
 
 
     const renderCards = () => {

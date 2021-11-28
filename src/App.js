@@ -13,9 +13,9 @@ import { useSelector } from 'react-redux';
 
 const App = () => {
 
-  const category = useSelector(state => state.categories)
+  // const category = useSelector(state => state.categories)
 
-  console.log(category)
+  // console.log(category)
 
   return (
     <>
