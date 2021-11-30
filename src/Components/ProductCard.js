@@ -54,7 +54,7 @@ const ProductCard = () => {
                         <div className="card mb-3" style={{ backgroundColor: '#33eee5' }}>
                             <div className="row g-0">
                                 <div className="col-md-4">
-                                    <img src={product.image} class="img-fluid rounded-start" />
+                                    <img src={product.image} class="img-fluid rounded-start h-100" />
                                 </div>
                                 <div className="col-md-8">
                                     <div className="card-body">
