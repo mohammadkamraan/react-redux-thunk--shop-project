@@ -12,7 +12,7 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 //import bootstrap
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Spinner } from 'react-bootstrap';
 
 
 
@@ -20,8 +20,8 @@ import { Card, Button } from 'react-bootstrap';
 const ProductCards = () => {
 
     const [category, setCategory] = useState([])
-
     const [allCategories, setAllCategories] = useState([])
+    const [loading, setLoading] = useState(true)
 
     //use redux hooks
     const dispath = useDispatch()
@@ -67,17 +67,28 @@ const ProductCards = () => {
                 let product = response.data
                 setCategory(product)
                 setAllCategories('')
+                setLoading(false)
             })
             .catch(err => { console.log(err) })
     }, [])
 
     return (
         <>
-            < div className='container align-items-center' >
-                <div className='row'>
-                    {showCategory()}
-                </div>
-            </div>
+            {
+                loading ?
+                    <p className='mt-5 ms-auto me-auto d-flex justify-content-center h-2'>
+                        loading...
+                        <Spinner animation="grow"
+                            variant="warning" />
+                    </p>
+                    :
+                    < div className='container align-items-center' >
+                        <div className='row'>
+                            {showCategory()}
+                        </div>
+                    </div>
+            }
+
         </>
     )
 }
