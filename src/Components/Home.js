@@ -1,7 +1,6 @@
 import React from "react";
 
 //import comps
-import Navbar from './Navbar';
 import MikiKala from './MikiKala';
 import CategoryCards from "./CategoryCards";
 import LoginSection from "./LoginSection";

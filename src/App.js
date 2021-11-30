@@ -6,6 +6,7 @@ import Home from './Components/Home';
 import Footer from './Components/Footer';
 import ProductCards from './Components/ProductCards';
 import ProductCard from './Components/ProductCard';
+import NotFounded from './Components/NotFounded';
 
 
 import { Route, Routes } from 'react-router-dom';
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/' exact element={<Home />} />
         <Route path='/category/:category' element={<ProductCards />} />
         <Route path='/product/:id' element={<ProductCard />} />
+        <Route element={<NotFounded />} />
       </Routes>
       <Footer />
     </>
