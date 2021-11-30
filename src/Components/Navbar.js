@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Modal, FloatingLabel } from 'react-bootstrap';
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Header = () => {
+
+    // const [show, setShow] = useState(false);
+
+    const dispath = useDispatch()
+
+    const shown = useSelector(state => state.userLogin)
+
+    console.log(shown)
+
+    const handleClose = () => {
+        dispath({
+            type: 'hideLogin'
+        })
+    }
+    const handleShow = () => {
+        dispath({
+            type: 'showLogin'
+        })
+    }
     return (
         <header>
             <Navbar collapseOnSelect expand="lg" bg="white" variant="light" className='shadow position-sticky sticky-top '>
@@ -23,9 +43,35 @@ const Header = () => {
                             </NavDropdown>
                             <div className='rowd-flex align-items-center'>
                                 <div className='col-3'>
-                                    <Button variant="outline-success"
+                                    <Button onClick={handleShow} variant="outline-success"
                                         className='mb-2 ms-lg-2 mt-2 mb-lg-0 mt-lg-0'>login
                                     </Button>
+                                    <Modal show={shown} onHide={handleClose}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title className='text-success' >Login form</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <FloatingLabel controlId="floatingPassword" label="user name" className='mb-3'
+                                            >
+                                                <Form.Control type="text" placeholder="user name" />
+                                            </FloatingLabel>
+
+                                            <FloatingLabel
+                                                controlId="floatingInput"
+                                                label="password"
+                                            >
+                                                <Form.Control type="password" placeholder="youre password" />
+                                            </FloatingLabel>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <Button variant="secondary" onClick={handleClose}>
+                                                cancel
+                                            </Button>
+                                            <Button variant="info" >
+                                                Login
+                                            </Button>
+                                        </Modal.Footer>
+                                    </Modal>
                                 </div>
                             </div>
                         </Nav>
@@ -44,5 +90,6 @@ const Header = () => {
         </header>
     )
 }
+
 
 export default Header;

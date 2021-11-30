@@ -3,7 +3,7 @@ import React from "react";
 //import comps
 import MikiKala from './MikiKala';
 import CategoryCards from "./CategoryCards";
-import LoginSection from "./LoginSection";
+import SingUp from "./SingUp";
 
 const Home = () => {
 
@@ -12,7 +12,7 @@ const Home = () => {
         <>
             <MikiKala />
             <CategoryCards />
-            <LoginSection />
+            <SingUp />
         </>
     )
 }

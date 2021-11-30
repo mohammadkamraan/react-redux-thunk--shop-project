@@ -7,7 +7,8 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 
 //import bootstrap
-import { Spinner, Button } from 'react-bootstrap';
+import { Spinner, Button, Modal } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 
 const ProductCard = () => {
 
@@ -15,9 +16,12 @@ const ProductCard = () => {
     const [loading, setLoding] = useState(true)
     const [login, setLogin] = useState(true)
     const [quantity, setQuantity] = useState(1)
-    const params = useParams()
+    const [show, setShow] = useState(false);
 
-    console.log(params.id)
+
+
+    const params = useParams()
+    const dispath = useDispatch()
 
     useEffect(() => {
         axios.get(`https://fakestoreapi.com/products/${params.id}`)
@@ -29,6 +33,12 @@ const ProductCard = () => {
     }, [])
 
 
+    const handleShowLogin = () => {
+        dispath({
+            type: 'showLogin'
+        })
+    }
+
     const incrace = () => {
         let quantityy = quantity
         quantityy++
@@ -39,6 +49,9 @@ const ProductCard = () => {
         quantityy--
         setQuantity(quantityy)
     }
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     console.log(product)
     return (
@@ -62,13 +75,27 @@ const ProductCard = () => {
                                         <p className="card-text">{product.description}</p>
                                         <p className="card-text">quantity: {quantity}</p>
                                         <p className="card-text d-flex align-items-end">{product.price * quantity}$</p>
-                                        {login ? <> <Button variant='success align-items-center'>add to cart
+                                        {login ? <> <Button onClick={handleShow} variant='success align-items-center'>add to cart
                                             <span className='ms-2'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
                                                     <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z" />
                                                 </svg>
                                             </span>
                                         </Button>
+                                            <Modal show={show} onHide={handleClose}>
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title>Modal heading</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                                                <Modal.Footer>
+                                                    <Button variant="secondary" onClick={handleClose}>
+                                                        Close
+                                                    </Button>
+                                                    <Button variant="primary" onClick={handleClose}>
+                                                        Save Changes
+                                                    </Button>
+                                                </Modal.Footer>
+                                            </Modal>
                                             <Button onClick={incrace} className='ms-2 me-3' variant='success'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
@@ -79,7 +106,7 @@ const ProductCard = () => {
                                                 </svg>
                                             </Button>
                                         </>
-                                            : <Button disabled variant='warning'>for shopping you have to login</Button>}
+                                            : <Button onClick={handleShowLogin} variant='warning'>for shopping you have to login</Button>}
                                     </div>
                                 </div>
                             </div>

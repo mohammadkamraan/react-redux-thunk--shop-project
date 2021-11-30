@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 //import bootstrap
-import { Form, FormControl, Button, FloatingLabel } from 'react-bootstrap';
+import { Form, Button, FloatingLabel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //import images
@@ -11,7 +11,7 @@ import Family from '../images/Family.png';
 import axios from "axios";
 
 
-const LoginSection = () => {
+const SingUp = () => {
 
     const [name, setName] = useState('')
     const [lastName, setlastName] = useState('')
@@ -102,7 +102,7 @@ const LoginSection = () => {
                     <img src={Family} className='img-fluid' />
                 </div>
                 <div className='col-md-5 ms-auto'>
-                    <h5 style={{ color: '#9d6beb' }} className='mb-4'>enter the specifications for login <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                    <h5 style={{ color: '#9d6beb' }} className='mb-4'>enter the specifications for Sing up <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z" />
                     </svg></h5>
                     <FloatingLabel
@@ -139,7 +139,7 @@ const LoginSection = () => {
                         onChange={addressHanler}>
                         <Form.Control type="text" placeholder="address" />
                     </FloatingLabel>
-                    <Button onClick={userSingIn} variant='outline-primary'>login</Button>
+                    <Button onClick={userSingIn} variant='outline-primary'>Sing up</Button>
                 </div>
             </div>
         </div>
@@ -147,4 +147,4 @@ const LoginSection = () => {
 }
 
 
-export default LoginSection;
+export default SingUp;
