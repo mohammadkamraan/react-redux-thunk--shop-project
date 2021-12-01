@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
 //import reducers
-import { categories } from './allProducts';
+import { modalLogin } from './modalLogin';
 import { userLogin } from './userLogin';
 
 
 export default combineReducers({
-    categories,
+    modalLogin,
     userLogin
 })

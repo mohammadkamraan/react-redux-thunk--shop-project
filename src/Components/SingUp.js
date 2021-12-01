@@ -81,20 +81,12 @@ const SingUp = () => {
     }
 
 
-    useEffect(() => {
-        axios.get('https://fakestoreapi.com/users')
-            .then(response => {
-                console.log(response)
-            })
-            .catch(err => console.log(err))
-    }, [])
-
     return (
         <div className='container' >
             <div className='row text-center'>
                 <h5 className='text-info'>dont have any acount yet?</h5>
                 <p style={{ color: '#2be3c0 ' }}>dont worry,its to easy.
-                    fill the inputs billow to join into oure big familly
+                    fill the inputs billow to join into our big familly
                 </p>
             </div>
             <div className='row align-items-center'>

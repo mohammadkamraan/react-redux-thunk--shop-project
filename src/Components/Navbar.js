@@ -2,17 +2,21 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Modal, FloatingLabel } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 
 const Header = () => {
 
-    // const [show, setShow] = useState(false);
+    const [users, setUsers] = useState([]);
+    const [userName, setUserName] = useState('')
+    const [password, setPassword] = useState(0)
 
     const dispath = useDispatch()
 
-    const shown = useSelector(state => state.userLogin)
+    const shown = useSelector(state => state.modalLogin)
+    const login = useSelector(state => state.userLogin)
 
-    console.log(shown)
+    console.log(login)
 
     const handleClose = () => {
         dispath({
@@ -20,10 +24,39 @@ const Header = () => {
         })
     }
     const handleShow = () => {
+        axios.get('https://fakestoreapi.com/users')
+            .then(response => {
+                console.log(response)
+                setUsers(response.data)
+            })
+            .catch(err => console.log(err))
+
         dispath({
             type: 'showLogin'
         })
     }
+
+
+    const getUserName = (e) => setUserName(e.target.value)
+
+    const getPassword = (e) => setPassword(e.target.value)
+
+    const handleLogin = () => {
+        users.map(items => {
+            if (items.password === password && items.username === userName) {
+                dispath({
+                    type: 'loged_in'
+                })
+            }
+        })
+    }
+
+    const handleSingOut = () => {
+        dispath({
+            type: 'loged_out'
+        })
+    }
+
     return (
         <header>
             <Navbar collapseOnSelect expand="lg" bg="white" variant="light" className='shadow position-sticky sticky-top '>
@@ -43,20 +76,27 @@ const Header = () => {
                             </NavDropdown>
                             <div className='rowd-flex align-items-center'>
                                 <div className='col-3'>
-                                    <Button onClick={handleShow} variant="outline-success"
-                                        className='mb-2 ms-lg-2 mt-2 mb-lg-0 mt-lg-0'>login
-                                    </Button>
+                                    {
+                                        login ? <Button onClick={handleSingOut} variant="outline-danger"
+                                            className='mb-2 ms-lg-2 mt-2 mb-lg-0 mt-lg-0'>sing out
+                                        </Button>
+                                            :
+                                            <Button onClick={handleShow} variant="outline-success"
+                                                className='mb-2 ms-lg-2 mt-2 mb-lg-0 mt-lg-0'>login
+                                            </Button>
+                                    }
                                     <Modal show={shown} onHide={handleClose}>
                                         <Modal.Header closeButton>
                                             <Modal.Title className='text-success' >Login form</Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
-                                            <FloatingLabel controlId="floatingPassword" label="user name" className='mb-3'
+                                            <FloatingLabel onChange={getUserName} controlId="floatingPassword" label="user name" className='mb-3'
                                             >
                                                 <Form.Control type="text" placeholder="user name" />
                                             </FloatingLabel>
 
                                             <FloatingLabel
+                                                onChange={getPassword}
                                                 controlId="floatingInput"
                                                 label="password"
                                             >
@@ -67,7 +107,7 @@ const Header = () => {
                                             <Button variant="secondary" onClick={handleClose}>
                                                 cancel
                                             </Button>
-                                            <Button variant="info" >
+                                            <Button onClick={handleLogin} variant="info" >
                                                 Login
                                             </Button>
                                         </Modal.Footer>

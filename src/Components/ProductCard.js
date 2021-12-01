@@ -8,17 +8,15 @@ import axios from 'axios';
 
 //import bootstrap
 import { Spinner, Button, Modal } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ProductCard = () => {
 
     const [product, setProduct] = useState({})
     const [loading, setLoding] = useState(true)
-    const [login, setLogin] = useState(true)
     const [quantity, setQuantity] = useState(1)
     const [show, setShow] = useState(false);
-
-
+    const login = useSelector(state => state.userLogin)
 
     const params = useParams()
     const dispath = useDispatch()

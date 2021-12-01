@@ -1,9 +1,9 @@
 export const userLogin = (state = false, action) => {
     console.log(action.type)
     switch (action.type) {
-        case 'showLogin':
+        case 'loged_in':
             return true
-        case 'hideLogin':
+        case 'loged_out':
             return false
         default:
             return state

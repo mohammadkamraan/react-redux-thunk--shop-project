@@ -8,13 +8,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 
-//import redux hook
-import { useDispatch, useSelector } from "react-redux";
-
 //import bootstrap
 import { Card, Button, Spinner } from 'react-bootstrap';
-
-
 
 
 const ProductCards = () => {
@@ -22,9 +17,6 @@ const ProductCards = () => {
     const [category, setCategory] = useState([])
     const [allCategories, setAllCategories] = useState([])
     const [loading, setLoading] = useState(true)
-
-    //use redux hooks
-    const dispath = useDispatch()
 
     //use Router hook
     const params = useParams()
