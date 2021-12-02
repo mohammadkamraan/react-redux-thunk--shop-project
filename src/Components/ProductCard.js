@@ -16,7 +16,9 @@ const ProductCard = () => {
     const [loading, setLoding] = useState(true)
     const [quantity, setQuantity] = useState(1)
     const [show, setShow] = useState(false);
+    const [buy, setBuy] = useState(false)
     const login = useSelector(state => state.userLogin)
+    const ID = useSelector(state => state.userID)
 
     const params = useParams()
     const dispath = useDispatch()
@@ -48,10 +50,25 @@ const ProductCard = () => {
         setQuantity(quantityy)
     }
 
+    const addToCart = () => {
+        axios.post('https://fakestoreapi.com/carts',
+            {
+                userId: `${ID}`,
+                date: '2020 - 02 - 03',
+                products: [{ productId: `${product.id}`, quantity: `${quantity}` }]
+            }
+        )
+            .then(response => {
+                console.log(response)
+                setBuy(true)
+            })
+            .catch(err => console.log(err))
+
+    }
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    console.log(product)
     return (
         <>
             {
@@ -82,16 +99,34 @@ const ProductCard = () => {
                                         </Button>
                                             <Modal show={show} onHide={handleClose}>
                                                 <Modal.Header closeButton>
-                                                    <Modal.Title>Modal heading</Modal.Title>
+                                                    <Modal.Title>youre order</Modal.Title>
                                                 </Modal.Header>
-                                                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                                                <Modal.Body>
+                                                    <p className='h5'>are you sure wants to buy this?</p>
+                                                    <p className='d-flex'>
+                                                        {product.title}
+                                                    </p>
+                                                    <p className='d-flex'>
+                                                        quantity: {quantity}
+                                                    </p>
+                                                    <p className='d-flex'>
+                                                        {product.price} $
+                                                    </p>
+                                                </Modal.Body>
                                                 <Modal.Footer>
                                                     <Button variant="secondary" onClick={handleClose}>
-                                                        Close
+                                                        cancel
                                                     </Button>
-                                                    <Button variant="primary" onClick={handleClose}>
-                                                        Save Changes
-                                                    </Button>
+                                                    {buy ?
+                                                        <Button variant="info">
+                                                            Your purchase was successful
+                                                        </Button>
+                                                        :
+                                                        <Button variant="primary" onClick={addToCart}>
+                                                            buy
+                                                        </Button>
+                                                    }
+
                                                 </Modal.Footer>
                                             </Modal>
                                             <Button onClick={incrace} className='ms-2 me-3' variant='success'>

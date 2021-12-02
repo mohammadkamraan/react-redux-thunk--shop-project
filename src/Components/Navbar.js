@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Modal, FloatingLabel } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { sendUserId } from '../actions';
 
 
 const Header = () => {
@@ -44,6 +45,8 @@ const Header = () => {
     const handleLogin = () => {
         users.map(items => {
             if (items.password === password && items.username === userName) {
+                console.log(items.id)
+                dispath(sendUserId(items.id))
                 dispath({
                     type: 'loged_in'
                 })
@@ -74,11 +77,11 @@ const Header = () => {
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="#action/3.4">Separated lorem</NavDropdown.Item>
                             </NavDropdown>
-                            <div className='rowd-flex align-items-center'>
+                            <div className='row  align-items-center'>
                                 <div className='col-3'>
                                     {
                                         login ? <Button onClick={handleSingOut} variant="outline-danger"
-                                            className='mb-2 ms-lg-2 mt-2 mb-lg-0 mt-lg-0'>sing out
+                                            className='mb-2 ms-lg-2 mt-2 mb-lg-0 mt-lg-0'>sing.out
                                         </Button>
                                             :
                                             <Button onClick={handleShow} variant="outline-success"
