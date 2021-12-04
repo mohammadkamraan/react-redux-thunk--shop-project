@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Modal, FloatingLabel } from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Modal, FloatingLabel, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { sendUserId } from '../actions';
@@ -8,16 +8,16 @@ import { sendUserId } from '../actions';
 
 const Header = () => {
 
-    const [users, setUsers] = useState([]);
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState(0)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+
 
     const dispath = useDispatch()
 
     const shown = useSelector(state => state.modalLogin)
     const login = useSelector(state => state.userLogin)
-
-    console.log(login)
 
     const handleClose = () => {
         dispath({
@@ -25,13 +25,6 @@ const Header = () => {
         })
     }
     const handleShow = () => {
-        axios.get('https://fakestoreapi.com/users')
-            .then(response => {
-                console.log(response)
-                setUsers(response.data)
-            })
-            .catch(err => console.log(err))
-
         dispath({
             type: 'showLogin'
         })
@@ -43,15 +36,27 @@ const Header = () => {
     const getPassword = (e) => setPassword(e.target.value)
 
     const handleLogin = () => {
-        users.map(items => {
-            if (items.password === password && items.username === userName) {
-                console.log(items.id)
-                dispath(sendUserId(items.id))
-                dispath({
-                    type: 'loged_in'
-                })
-            }
+        setLoading(true)
+        axios.post('https://fakestoreapi.com/auth/login', {
+            username: `${userName}`,
+            password: `${password}`
         })
+            .then(response => {
+                console.log(response)
+                if (response.data.status === 'Error') {
+                    setError(response.data.msg)
+                } else {
+                    dispath({
+                        type: 'loged_in'
+                    })
+                    dispath({
+                        type: 'hideLogin'
+                    })
+
+                }
+                setLoading(false)
+            })
+            .catch(err => console.log(err))
     }
 
     const handleSingOut = () => {
@@ -93,6 +98,7 @@ const Header = () => {
                                             <Modal.Title className='text-success' >Login form</Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
+                                            <p className='text-danger h-5 my-3'>{error}</p>
                                             <FloatingLabel onChange={getUserName} controlId="floatingPassword" label="user name" className='mb-3'
                                             >
                                                 <Form.Control type="text" placeholder="user name" />
@@ -110,9 +116,16 @@ const Header = () => {
                                             <Button variant="secondary" onClick={handleClose}>
                                                 cancel
                                             </Button>
-                                            <Button onClick={handleLogin} variant="info" >
-                                                Login
-                                            </Button>
+                                            {
+                                                loading ? <Spinner animation="border" variant="info" />
+                                                    : <Button onClick={handleLogin} variant="info" disabled={userName.length == 0 || password.length == 0} >
+                                                        login
+                                                    </Button>
+
+                                            }
+
+
+
                                         </Modal.Footer>
                                     </Modal>
                                 </div>
