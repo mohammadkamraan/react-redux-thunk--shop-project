@@ -1,6 +1,6 @@
 import './App.css';
 
-//import Comps
+//import Components
 import Navbar from './Components/Navbar';
 import Home from './Components/Home';
 import Footer from './Components/Footer';
@@ -11,11 +11,7 @@ import PageNotFound from './Components/PageNotFound';
 import { Route, Routes } from 'react-router-dom';
 
 
-
 const App = () => {
-
-
-
   return (
     <>
       <Navbar />
@@ -27,7 +23,6 @@ const App = () => {
       </Routes>
       <Footer />
     </>
-
   );
 }
 

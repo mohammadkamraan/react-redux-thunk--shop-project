@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import NotFound from '../images/NotFound.png';
 
 const PageNotFound = () => {

@@ -1,13 +1,11 @@
 import React from "react";
 
-//import comps
+//import components
 import MikiKala from './MikiKala';
 import CategoryCards from "./CategoryCards";
 import SingUp from "./SingUp";
 
 const Home = () => {
-
-
     return (
         <>
             <MikiKala />

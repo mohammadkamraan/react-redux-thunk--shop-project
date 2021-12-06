@@ -1,6 +1,6 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import OnllineShope from '../images/OnlineShopping.png';
+import OnllineShop from '../images/OnlineShopping.png';
 
 
 const MikiKala = () => {
@@ -8,7 +8,7 @@ const MikiKala = () => {
         <div className='container '>
             <div className='row align-items-center'>
                 <div className='col-md-6 '>
-                    <img src={OnllineShope} className="img-fluid" style={{ width: '25rem' }} />
+                    <img src={OnllineShop} className="img-fluid" style={{ width: '25rem' }} />
                 </div>
                 <div className='col-md-6'>
                     <h4 className='text-primary h-4'>miki kala</h4>
