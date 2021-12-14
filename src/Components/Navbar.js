@@ -16,11 +16,13 @@ const Header = () => {
     const [products, setProducts] = useState([])
     const [searchValue, setSearchValue] = useState('')
     const [suggestions, setSuggestions] = useState([])
+    const [cartModal, setCartModal] = useState(false)
+    const [login, setLogin] = useState(false)
 
     const dispath = useDispatch()
 
     const shown = useSelector(state => state.modalLogin)
-    const login = useSelector(state => state.userLogin)
+    // const login = useSelector(state => state.userLogin)
 
     const handleClose = () => {
         dispath({
@@ -48,9 +50,10 @@ const Header = () => {
                 if (response.data.status === 'Error') {
                     setError(response.data.msg)
                 } else {
-                    dispath({
-                        type: 'loged_in'
-                    })
+                    localStorage.setItem('login', true)
+                    let userLogin = localStorage.getItem('login')
+                    userLogin = JSON.parse(userLogin)
+                    setLogin(userLogin)
                     dispath({
                         type: 'hideLogin'
                     })
@@ -62,9 +65,10 @@ const Header = () => {
     }
 
     const handleSingOut = () => {
-        dispath({
-            type: 'loged_out'
-        })
+        localStorage.setItem('login', false)
+        let userLogin = localStorage.getItem('login')
+        userLogin = JSON.parse(userLogin)
+        setLogin(userLogin)
     }
 
     const searchOnChangeHandler = (e) => {
@@ -86,23 +90,44 @@ const Header = () => {
             setProducts(response.data)
         }
         searchProducts()
-    }, [])
+        let initialLogin = localStorage.getItem('login')
+        initialLogin = JSON.parse(initialLogin)
+        setLogin(initialLogin)
+    }, [login])
 
     const exitSearch = () => {
         setSearchValue('')
         setSuggestions([])
     }
 
+    const showCarts = () => {
+        let userCarts = localStorage.getItem('data')
+        userCarts = JSON.parse(userCarts)
+        console.log(userCarts)
+        if (userCarts.length === 0) {
+            <p className='text-info h-3'>you dont buy enything yet</p>
+        } else {
+            return (userCarts.map(items => {
+                return (
+                    <div className='d-flex' key={items.index}>
+                        <p>{items.title}</p>
+                        <p>{items.quantity}</p>|<p>{items.price}$</p>
+                    </div>
+                )
+            }))
+        }
+    }
+
     return (
         <header>
             <Navbar collapseOnSelect expand="lg" bg="white" variant="light" className='shadow position-sticky sticky-top '>
                 <Container >
-                    <Navbar.Brand className='text-danger' href="#home">miki kala</Navbar.Brand>
+                    <Link to='/' className='text-danger navbar-brand'>miki kala</Link>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto d-flex gy-2">
-                            <Link to='/'>
-                                <Nav.Link >Home</Nav.Link>
+                            <Link to='/' className='nav-link'>
+                                Home
                             </Link>
                             <Nav.Link >About</Nav.Link>
                             <NavDropdown title="us" id="collasible-nav-dropdown">
@@ -168,11 +193,24 @@ const Header = () => {
                                 aria-label="Search"
                             />
                         </Form>
+                        <svg onClick={() => setCartModal(true)} xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-basket3" viewBox="0 0 16 16">
+                            <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM3.394 15l-1.48-6h-.97l1.525 6.426a.75.75 0 0 0 .729.574h9.606a.75.75 0 0 0 .73-.574L15.056 9h-.972l-1.479 6h-9.21z" />
+                        </svg>
+                        <Modal show={cartModal} onHide={() => setCartModal(false)}>
+                            <Modal.Header closeButton />
+                            <Modal.Body>
+                                {showCarts()}
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={() => setCartModal(false)}>
+                                    Close
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
             {suggestions && suggestions.map(prd =>
-                // console.log(prd.title)
                 <Link onClick={exitSearch} to={`/product/${prd.id}`} className='d-flex block text-decoration-none search'>
                     < p key={prd.id} > {prd.title}</p>
                 </Link>

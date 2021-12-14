@@ -17,11 +17,13 @@ const ProductCard = () => {
     const [quantity, setQuantity] = useState(1)
     const [show, setShow] = useState(false);
     const [buy, setBuy] = useState(false)
+    const [cart, setCart] = useState([])
     const login = useSelector(state => state.userLogin)
     const ID = useSelector(state => state.userID)
 
     const params = useParams()
     const dispath = useDispatch()
+
 
     useEffect(() => {
         axios.get(`https://fakestoreapi.com/products/${params.id}`)
@@ -64,7 +66,20 @@ const ProductCard = () => {
                 setBuy(true)
             })
             .catch(err => console.log(err))
-
+        let products = {
+            quantity: quantity,
+            title: product.title,
+            price: (product.price * quantity)
+        }
+        let carts = cart
+        carts.push(products)
+        console.log(carts)
+        setCart(carts)
+        localStorage.setItem('data', JSON.stringify(carts))
+        let ourCards = localStorage.getItem('data')
+        ourCards = JSON.parse(ourCards)
+        console.log(ourCards)
+        localStorage.setItem('useData', JSON.stringify(ourCards))
     }
 
     const handleClose = () => setShow(false);
@@ -119,7 +134,7 @@ const ProductCard = () => {
                                                         cancel
                                                     </Button>
                                                     {buy ?
-                                                        <Button variant="info">
+                                                        <Button variant="info" onClick={addToCart}>
                                                             Your purchase was successful
                                                         </Button>
                                                         :
