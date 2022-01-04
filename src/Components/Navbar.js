@@ -12,8 +12,6 @@ const Header = () => {
 
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState(0)
-    // const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
     const [products, setProducts] = useState([])
     const [searchValue, setSearchValue] = useState('')
     const [suggestions, setSuggestions] = useState([])

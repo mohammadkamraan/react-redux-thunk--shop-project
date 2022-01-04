@@ -10,31 +10,34 @@ import axios from 'axios';
 import { Spinner, Button, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { addToCart_action, getProduct } from '../redux/actions/getProduct.action';
+import { userLogin } from '../redux/reducers/userLogin';
+
 const ProductCard = () => {
 
-    const [product, setProduct] = useState({})
-    const [loading, setLoding] = useState(true)
+    // const [product, setProduct] = useState({})
+    // const [loading, setLoding] = useState(true)
     const [quantity, setQuantity] = useState(1)
     const [show, setShow] = useState(false);
-    const [buy, setBuy] = useState(false)
-    const [cart, setCart] = useState([])
+    // const [buy, setBuy] = useState(false)
+    // const [cart, setCart] = useState([])
+    // const [login, setLogin] = useState(null)
 
-    const login = useSelector(state => state.userLogin)
+    const { login } = useSelector(state => state.userLogin)
     const ID = useSelector(state => state.userID)
+    const { loading, product, error } = useSelector(state => state.product)
 
     const params = useParams()
     const dispath = useDispatch()
 
-    console.log(login)
     useEffect(() => {
-        axios.get(`https://fakestoreapi.com/products/${params.id}`)
-            .then(response => {
-                setProduct(response.data)
-                setLoding(false)
-            })
-            .catch(err => console.log(err))
-    }, [params.id])
+        dispath(getProduct(params.id))
+        // let userLogin = localStorage.getItem('login')
+        // userLogin = JSON.parse(userLogin)
+        // setLogin(userLogin)
+    }, [params.id, userLogin])
 
+    console.log(login)
 
     const handleShowLogin = () => {
         dispath({
@@ -55,36 +58,29 @@ const ProductCard = () => {
     }
 
     const addToCart = () => {
-        axios.post('https://fakestoreapi.com/carts',
-            {
-                userId: `${ID}`,
-                date: '2020 - 02 - 03',
-                products: [{ productId: `${product.id}`, quantity: `${quantity}` }]
-            }
-        )
-            .then(response => {
-                console.log(response)
-                setBuy(true)
-            })
-            .catch(err => console.log(err))
-        let products = {
-            quantity: quantity,
-            title: product.title,
-            price: (product.price * quantity)
-        }
-        let carts = cart
-        carts.push(products)
-        console.log(carts)
-        setCart(carts)
-        localStorage.setItem('data', JSON.stringify(carts))
-        let ourCards = localStorage.getItem('data')
-        ourCards = JSON.parse(ourCards)
-        console.log(ourCards)
-        localStorage.setItem('useData', JSON.stringify(ourCards))
+        dispath(addToCart_action(ID, product.id, quantity))
+        // let products = {
+        //     quantity: quantity,
+        //     title: product.title,
+        //     price: (product.price * quantity)
+        // }
+        // let carts = cart
+        // carts.push(products)
+        // console.log(carts)
+        // setCart(carts)
+        // localStorage.setItem('data', JSON.stringify(carts))
+        // let ourCards = localStorage.getItem('data')
+        // ourCards = JSON.parse(ourCards)
+        // console.log(ourCards)
+        // localStorage.setItem('useData', JSON.stringify(ourCards))
     }
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const { buy, buyMsg, loadingCart } = useSelector(state => state.addCart)
+
+    console.log(buy, buyMsg, loadingCart)
 
     return (
         <>
@@ -119,6 +115,7 @@ const ProductCard = () => {
                                                     <Modal.Title>youre order</Modal.Title>
                                                 </Modal.Header>
                                                 <Modal.Body>
+                                                    <p className='h-3 text-danger'>{buyMsg}</p>
                                                     <p className='h5'>are you sure wants to buy this?</p>
                                                     <p className='d-flex'>
                                                         {product.title}
@@ -134,15 +131,19 @@ const ProductCard = () => {
                                                     <Button variant="secondary" onClick={handleClose}>
                                                         cancel
                                                     </Button>
-                                                    {buy ?
-                                                        <Button variant="info" onClick={addToCart}>
-                                                            Your purchase was successful
-                                                        </Button>
-                                                        :
-                                                        <Button variant="primary" onClick={addToCart}>
-                                                            buy
-                                                        </Button>
-                                                    }
+
+                                                    <>
+                                                        {loadingCart ? <Spinner animation="grow"
+                                                            variant="primary" />
+                                                            : buy ?
+                                                                <Button variant="info" disabled>
+                                                                    Your purchase was successful
+                                                                </Button>
+                                                                :
+                                                                <Button variant="primary" onClick={addToCart}>
+                                                                    buy
+                                                                </Button>}
+                                                    </>
 
                                                 </Modal.Footer>
                                             </Modal>

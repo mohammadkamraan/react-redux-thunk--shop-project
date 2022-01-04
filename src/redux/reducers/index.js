@@ -6,6 +6,7 @@ import { userLogin } from './userLogin';
 import { userID } from './userID';
 import { getCarts } from './getCarts';
 import { getCategories } from './getCategories-reducer';
+import { getProduct_reducer, addToCart_reducer } from './getProduct-reducer';
 
 
 const rootReducer = combineReducers({
@@ -13,7 +14,9 @@ const rootReducer = combineReducers({
     userID,
     getCarts,
     modalLogin,
-    categories: getCategories
+    categories: getCategories,
+    product: getProduct_reducer,
+    addCart: addToCart_reducer
 })
 
 export default rootReducer;

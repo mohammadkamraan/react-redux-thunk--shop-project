@@ -30,7 +30,8 @@ export const userLogin = (userName, password) => (dispatch) => {
                 dispatch({
                     type: LOGIN_SUCCESS,
                     payload: true,
-                    loader: false
+                    loader: false,
+                    msg: ""
                 })
                 localStorage.setItem('login', true)
             }

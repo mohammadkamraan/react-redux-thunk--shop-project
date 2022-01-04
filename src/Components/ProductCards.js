@@ -50,6 +50,7 @@ const ProductCards = () => {
     useEffect(() => {
         axios.get(`https://fakestoreapi.com/products/category/${params.category}`)
             .then(response => {
+                console.log(response.data)
                 let product = response.data
                 setCategory(product)
                 setAllCategories('')

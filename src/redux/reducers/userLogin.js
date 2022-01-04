@@ -21,7 +21,8 @@ export const userLogin = (state = initialState1, action) => {
             return {
                 ...state,
                 login: action.payload,
-                loading: action.loader
+                loading: action.loader,
+                msg: action.msg
             }
         case LOGIN_FAILD:
             return {
