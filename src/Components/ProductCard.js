@@ -18,13 +18,14 @@ const ProductCard = () => {
     const [show, setShow] = useState(false);
     const [buy, setBuy] = useState(false)
     const [cart, setCart] = useState([])
+
     const login = useSelector(state => state.userLogin)
     const ID = useSelector(state => state.userID)
 
     const params = useParams()
     const dispath = useDispatch()
 
-
+    console.log(login)
     useEffect(() => {
         axios.get(`https://fakestoreapi.com/products/${params.id}`)
             .then(response => {
@@ -126,7 +127,7 @@ const ProductCard = () => {
                                                         quantity: {quantity}
                                                     </p>
                                                     <p className='d-flex'>
-                                                        {product.price} $
+                                                        {product.price * quantity} $
                                                     </p>
                                                 </Modal.Body>
                                                 <Modal.Footer>

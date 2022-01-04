@@ -5,11 +5,15 @@ import { modalLogin } from './modalLogin';
 import { userLogin } from './userLogin';
 import { userID } from './userID';
 import { getCarts } from './getCarts';
+import { getCategories } from './getCategories-reducer';
 
 
-export default combineReducers({
-    modalLogin,
+const rootReducer = combineReducers({
     userLogin,
     userID,
-    getCarts
+    getCarts,
+    modalLogin,
+    categories: getCategories
 })
+
+export default rootReducer;

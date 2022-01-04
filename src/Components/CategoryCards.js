@@ -11,26 +11,27 @@ import jewelery from '../images/jewelery.png';
 //import react-router
 import { Link } from "react-router-dom";
 
-//import axios
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from '../redux/actions/getCategories.action'
+
 
 
 const CategoryCards = () => {
-
-    const [categories, setCategories] = useState('')
 
     // categories[2]= mens clothing
     // categories[3]= womens clothing
     // categories[1]= jewelery
     // categories[0]= electronic
 
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        axios.get('https://fakestoreapi.com/products/categories')
-            .then(response => {
-                setCategories(response.data)
-            })
-            .catch(err => { console.log(err) })
+        dispatch(getCategories())
     }, [])
+
+    const { categories, errMsg } = useSelector(state => state.categories)
+
+    console.log(categories, errMsg)
 
     return (
         <>
@@ -49,7 +50,7 @@ const CategoryCards = () => {
                                         Some quick example text to build on the card title and make up the bulk of
                                         the card's content.
                                     </Card.Text>
-                                    <Link to={`/category/${categories[2]}`}><Button variant="primary">Go somewhere</Button></Link>
+                                    <Link to={`category/${categories[2]}`}><Button variant="primary">Go somewhere</Button></Link>
                                 </Card.Body>
                             </Card>
                         </div>
@@ -64,7 +65,7 @@ const CategoryCards = () => {
                                         Some quick example text to build on the card title and make up the bulk of
                                         the card's content.
                                     </Card.Text>
-                                    <Link to={`/category/${categories[3]}`}><Button variant="primary">Go somewhere</Button></Link>
+                                    <Link to={`category/${categories[3]}`}><Button variant="primary">Go somewhere</Button></Link>
                                 </Card.Body>
                             </Card>
                         </div>
@@ -79,7 +80,7 @@ const CategoryCards = () => {
                                         Some quick example text to build on the card title and make up the bulk of
                                         the card's content.
                                     </Card.Text>
-                                    <Link to={`/category/${categories[1]}`}> <Button variant="primary">Go somewhere</Button></Link>
+                                    <Link to={`category/${categories[1]}`}> <Button variant="primary">Go somewhere</Button></Link>
                                 </Card.Body>
                             </Card>
                         </div>
@@ -94,7 +95,7 @@ const CategoryCards = () => {
                                         Some quick example text to build on the card title and make up the bulk of
                                         the card's content.
                                     </Card.Text>
-                                    <Link to={`/category/${categories[0]}`}><Button variant="primary">Go somewhere</Button></Link>
+                                    <Link to={`category/${categories[0]}`}><Button variant="primary">Go somewhere</Button></Link>
                                 </Card.Body>
                             </Card>
                         </div>

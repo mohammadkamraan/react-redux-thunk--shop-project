@@ -2,27 +2,29 @@ import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Modal, FloatingLabel, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { userLogin } from "../redux/actions/userLogin.action";
 import { Link } from "react-router-dom";
 import '../App.css';
-
+import axios from "axios";
+import { LOGIN_SUCCESS, USER_SINGOUT } from '../redux/types/types';
 
 const Header = () => {
 
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState(0)
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [products, setProducts] = useState([])
     const [searchValue, setSearchValue] = useState('')
     const [suggestions, setSuggestions] = useState([])
     const [cartModal, setCartModal] = useState(false)
-    const [login, setLogin] = useState(false)
+    const [userlogin, setUserLogin] = useState(false)
 
     const dispath = useDispatch()
 
     const shown = useSelector(state => state.modalLogin)
     // const login = useSelector(state => state.userLogin)
+    const { login, loading, msg } = useSelector(state => state.userLogin)
 
     const handleClose = () => {
         dispath({
@@ -34,43 +36,25 @@ const Header = () => {
             type: 'showLogin'
         })
     }
-
     const getUserName = (e) => setUserName(e.target.value)
 
     const getPassword = (e) => setPassword(e.target.value)
 
     const handleLogin = () => {
-        setLoading(true)
-        axios.post('https://fakestoreapi.com/auth/login', {
-            username: `${userName}`,
-            password: `${password}`
-        })
-            .then(response => {
-                console.log(response)
-                if (response.data.status === 'Error') {
-                    setError(response.data.msg)
-                } else {
-                    localStorage.setItem('login', true)
-                    let userLogin = localStorage.getItem('login')
-                    userLogin = JSON.parse(userLogin)
-                    setLogin(userLogin)
-                    dispath({
-                        type: 'hideLogin'
-                    })
-                    setError('')
-                }
-                setLoading(false)
-            })
-            .catch(err => console.log(err))
+        dispath(userLogin(userName, password))
     }
 
     const handleSingOut = () => {
+        dispath({
+            type: USER_SINGOUT,
+            payload: false
+        })
         localStorage.setItem('login', false)
         let userLogin = localStorage.getItem('login')
         userLogin = JSON.parse(userLogin)
-        setLogin(userLogin)
+        setUserLogin(userLogin)
     }
-
+    console.log(login, loading)
     const searchOnChangeHandler = (e) => {
         let maches = []
         if (searchValue.length > 0) {
@@ -92,7 +76,19 @@ const Header = () => {
         searchProducts()
         let initialLogin = localStorage.getItem('login')
         initialLogin = JSON.parse(initialLogin)
-        setLogin(initialLogin)
+        setUserLogin(initialLogin)
+        if (initialLogin) {
+            dispath({
+                type: LOGIN_SUCCESS,
+                payload: true,
+                loader: false
+            })
+        } else {
+            dispath({
+                type: USER_SINGOUT,
+                payload: false
+            })
+        }
     }, [login])
 
     const exitSearch = () => {
@@ -103,7 +99,6 @@ const Header = () => {
     const showCarts = () => {
         let userCarts = localStorage.getItem('data')
         userCarts = JSON.parse(userCarts)
-        console.log(userCarts)
         if (userCarts.length === 0) {
             <p className='text-info h-3'>you dont buy enything yet</p>
         } else {
@@ -153,7 +148,7 @@ const Header = () => {
                                             <Modal.Title className='text-success' >Login form</Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
-                                            <p className='text-danger h-5 my-3'>{error}</p>
+                                            <p className='text-danger h-5 my-3'>{msg}</p>
                                             <FloatingLabel onChange={getUserName} controlId="floatingPassword" label="user name" className='mb-3'
                                             >
                                                 <Form.Control type="text" placeholder="user name" />
