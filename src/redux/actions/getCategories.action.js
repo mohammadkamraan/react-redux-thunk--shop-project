@@ -8,7 +8,6 @@ import { shopApi } from '../../api/shopApi';
 export const getCategories = () => (dispatch) => {
     shopApi.get('/products/categories')
         .then(response => {
-            console.log(response)
             dispatch({
                 type: CATEGORIES_SUCCESS,
                 payload: response.data

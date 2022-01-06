@@ -15,13 +15,8 @@ import { userLogin } from '../redux/reducers/userLogin';
 
 const ProductCard = () => {
 
-    // const [product, setProduct] = useState({})
-    // const [loading, setLoding] = useState(true)
     const [quantity, setQuantity] = useState(1)
     const [show, setShow] = useState(false);
-    // const [buy, setBuy] = useState(false)
-    // const [cart, setCart] = useState([])
-    // const [login, setLogin] = useState(null)
 
     const { login } = useSelector(state => state.userLogin)
     const ID = useSelector(state => state.userID)
@@ -32,9 +27,6 @@ const ProductCard = () => {
 
     useEffect(() => {
         dispath(getProduct(params.id))
-        // let userLogin = localStorage.getItem('login')
-        // userLogin = JSON.parse(userLogin)
-        // setLogin(userLogin)
     }, [params.id, userLogin])
 
     console.log(login)
@@ -59,20 +51,6 @@ const ProductCard = () => {
 
     const addToCart = () => {
         dispath(addToCart_action(ID, product.id, quantity))
-        // let products = {
-        //     quantity: quantity,
-        //     title: product.title,
-        //     price: (product.price * quantity)
-        // }
-        // let carts = cart
-        // carts.push(products)
-        // console.log(carts)
-        // setCart(carts)
-        // localStorage.setItem('data', JSON.stringify(carts))
-        // let ourCards = localStorage.getItem('data')
-        // ourCards = JSON.parse(ourCards)
-        // console.log(ourCards)
-        // localStorage.setItem('useData', JSON.stringify(ourCards))
     }
 
     const handleClose = () => setShow(false);

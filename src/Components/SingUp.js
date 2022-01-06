@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-import { Form, Button, FloatingLabel } from 'react-bootstrap';
+import { Form, Button, FloatingLabel, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Family from '../images/Family.png';
 
-import axios from "axios";
 
+import { useSelector, useDispatch } from 'react-redux'
+import { singUp_action } from '../redux/actions/singUp.action';
 
 const SingUp = () => {
 
@@ -16,6 +17,10 @@ const SingUp = () => {
     const [password, setPassword] = useState('')
     const [address, setAddress] = useState('')
     const [userName, setUserName] = useState('')
+
+    const dispatch = useDispatch()
+
+    const { loading, payload } = useSelector(state => state.userSingUp)
 
 
     const nameHandler = (e) => {
@@ -49,32 +54,7 @@ const SingUp = () => {
     }
 
     const userSingIn = () => {
-        axios.post('https://fakestoreapi.com/users',
-            {
-                email: `${email}`,
-                username: `${userName}`,
-                password: `${password}`,
-                name: {
-                    firstname: `${name}`,
-                    lastname: `${lastName}`
-                },
-                address: {
-                    city: `${address}`,
-                    street: '',
-                    number: '',
-                    zipcode: '',
-                    geolocation: {
-                        lat: '',
-                        long: ''
-                    },
-                    phone: ''
-                }
-            }
-        )
-            .then(response => {
-                console.log(response)
-            })
-            .catch(err => console.log(err))
+        dispatch(singUp_action(email, userName, password, name, lastName, address))
     }
 
 
@@ -128,7 +108,14 @@ const SingUp = () => {
                         onChange={addressHandler}>
                         <Form.Control type="text" placeholder="address" />
                     </FloatingLabel>
-                    <Button onClick={userSingIn} variant='outline-primary'>Sing up</Button>
+                    {
+                        <>
+                            {loading ? <Spinner animation="border"
+                                variant="primary" />
+                                :
+                                <Button disabled={payload} onClick={userSingIn} variant='outline-primary'>{payload ? payload : 'singUp'}</Button>}
+                        </>
+                    }
                 </div>
             </div>
         </div>

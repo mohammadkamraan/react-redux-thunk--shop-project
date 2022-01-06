@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-
-import axios from "axios";
+import React, { useEffect } from "react";
 
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 
 import { Card, Button, Spinner } from 'react-bootstrap';
 
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts_action } from "../redux/actions/getProducts.action";
+
 
 const ProductCards = () => {
 
-    const [category, setCategory] = useState([])
-    const [allCategories, setAllCategories] = useState([])
-    const [loading, setLoading] = useState(true)
-
     const params = useParams()
+    const dispatch = useDispatch()
+
+    const allProducts = useSelector(state => state.products)
 
 
     const showCategory = () => {
-        return (category.map(items => {
+        return (allProducts.category?.map(items => {
             return (
                 <div className='col-md-3'>
 
@@ -45,24 +45,17 @@ const ProductCards = () => {
                 </div>
             )
         }))
+
     }
 
     useEffect(() => {
-        axios.get(`https://fakestoreapi.com/products/category/${params.category}`)
-            .then(response => {
-                console.log(response.data)
-                let product = response.data
-                setCategory(product)
-                setAllCategories('')
-                setLoading(false)
-            })
-            .catch(err => { console.log(err) })
+        dispatch(getProducts_action(params.category))
     }, [])
 
     return (
         <>
             {
-                loading ?
+                allProducts.loading ?
                     <p className='mt-5 ms-auto me-auto d-flex justify-content-center h-2'>
                         loading...
                         <Spinner animation="grow"
