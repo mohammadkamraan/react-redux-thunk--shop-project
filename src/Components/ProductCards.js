@@ -3,10 +3,12 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 
-import { Card, Button, Spinner } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts_action } from "../redux/actions/getProducts.action";
+
+import SkeletonProducts from "./skeletons/skeletonProducts";
 
 
 const ProductCards = () => {
@@ -48,25 +50,42 @@ const ProductCards = () => {
 
     }
 
+    const showSkeleton = () => {
+        return ([...Array(8)]?.map(n => {
+            return (
+                <div className="col-md-3">
+                    <Card className='me-3  mt-5' style={{ backgroundColor: '#535353' }} >
+                        <Card.Body>
+                            <Card.Text>
+                                <SkeletonProducts />
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </div >
+            )
+        }))
+    }
+
     useEffect(() => {
         dispatch(getProducts_action(params.category))
     }, [])
 
     return (
         <>
-            {
-                allProducts.loading ?
-                    <p className='mt-5 ms-auto me-auto d-flex justify-content-center h-2'>
-                        loading...
-                        <Spinner animation="grow"
-                            variant="warning" />
-                    </p>
-                    :
-                    < div className='container align-items-center' >
-                        <div className='row'>
-                            {showCategory()}
-                        </div>
+            {allProducts.loading
+                ?
+                <div className="container align-items-center">
+                    <div className="row">
+                        {showSkeleton()}
                     </div>
+                </div>
+
+                :
+                < div className='container align-items-center' >
+                    <div className='row'>
+                        {showCategory()}
+                    </div>
+                </div>
             }
 
         </>

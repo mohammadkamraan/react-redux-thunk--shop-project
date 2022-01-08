@@ -5,19 +5,21 @@ import {
 } from '../types/types';
 import { shopApi } from '../../api/shopApi';
 
-export const getProducts_action = (category) => async (dispatch) => {
+export const getProducts_action = (category) => (dispatch) => {
     dispatch({
         type: PRODUCTS_REQUEST,
         loading: true
     })
-    await shopApi.get(`/products/category/${category}`)
+    shopApi.get(`/products/category/${category}`)
         .then(response => {
             console.log(response.data)
-            dispatch({
-                type: PRODUCTS_SUCCESS,
-                payload: response.data,
-                loading: false
-            })
+            setTimeout(() => {
+                dispatch({
+                    type: PRODUCTS_SUCCESS,
+                    payload: response.data,
+                    loading: false
+                })
+            }, 1000);
         })
         .catch(err => {
             dispatch({

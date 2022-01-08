@@ -15,13 +15,16 @@ export const getProduct = (id) => (dispatch) => {
         type: GET_PRODUCT_REQUSET,
         loading: true
     })
+
     shopApi.get(`/products/${id}`)
         .then(response => {
-            dispatch({
-                type: GET_PRODUCT_SUCCESS,
-                loading: false,
-                payload: response.data
-            })
+            setTimeout(() => {
+                dispatch({
+                    type: GET_PRODUCT_SUCCESS,
+                    loading: false,
+                    payload: response.data
+                })
+            }, 1000);
         })
         .catch(err => dispatch({
             type: GET_PRODUCT_FAILD,

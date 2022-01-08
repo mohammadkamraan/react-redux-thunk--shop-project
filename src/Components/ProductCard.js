@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addToCart_action, getProduct } from '../redux/actions/getProduct.action';
 import { userLogin } from '../redux/reducers/userLogin';
+import SkeletonProduct from './skeletons/skeletonProduct';
 
 const ProductCard = () => {
 
@@ -63,11 +64,8 @@ const ProductCard = () => {
     return (
         <>
             {
-                loading ? <p className='mt-5 ms-auto me-auto d-flex justify-content-center h-2'>
-                    loading...
-                    <Spinner animation="grow"
-                        variant="warning" />
-                </p>
+                loading ?
+                    <SkeletonProduct />
                     :
                     <div className='container mt-5 d-flex align-items-center'>
                         <div className="card mb-3" style={{ backgroundColor: '#33eee5' }}>

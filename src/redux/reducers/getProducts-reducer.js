@@ -14,19 +14,19 @@ export const getProducts_reducer = (state = initialState1, action) => {
         case PRODUCTS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: action.loading
             }
         case PRODUCTS_SUCCESS:
             return {
                 ...state,
                 category: action.payload,
-                loading: false
+                loading: action.loading
             }
 
         case PRODUCTS_FAILD:
             return {
                 ...state,
-                loading: false,
+                loading: action.loading,
                 err: action.error
             }
         default:
