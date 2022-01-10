@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { Card, Button } from 'react-bootstrap';
 
@@ -31,11 +31,9 @@ const CategoryCards = () => {
 
     const { categories, errMsg } = useSelector(state => state.categories)
 
-    console.log(categories, errMsg)
-
     return (
         <>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill=" #9433d8 " fill-opacity="1" d="M0,288L120,266.7C240,245,480,203,720,197.3C960,192,1200,224,1320,240L1440,256L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill=" #9433d8 " fillOpacity="1" d="M0,288L120,266.7C240,245,480,203,720,197.3C960,192,1200,224,1320,240L1440,256L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>
             <div style={{ backgroundColor: '#9433d8' }}>
                 <div className='container align-items-center' >
                     <div className='row'>
@@ -102,7 +100,7 @@ const CategoryCards = () => {
                     </div>
                 </div>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill=" #9433d8 " fill-opacity="1" d="M0,128L1440,64L1440,0L0,0Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill=" #9433d8 " fillOpacity="1" d="M0,128L1440,64L1440,0L0,0Z"></path></svg>
         </>
     )
 

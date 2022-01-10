@@ -12,7 +12,6 @@ export const getProducts_action = (category) => (dispatch) => {
     })
     shopApi.get(`/products/category/${category}`)
         .then(response => {
-            console.log(response.data)
             setTimeout(() => {
                 dispatch({
                     type: PRODUCTS_SUCCESS,

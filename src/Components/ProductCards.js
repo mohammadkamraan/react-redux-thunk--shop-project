@@ -22,8 +22,7 @@ const ProductCards = () => {
     const showCategory = () => {
         return (allProducts.category?.map(items => {
             return (
-                <div className='col-md-3'>
-
+                <div className='col-md-3' key={items.id}>
                     <Card className='me-3  mt-5' style={{
                         backgroundColor: '#3ff7a5'
                     }} >
@@ -37,7 +36,7 @@ const ProductCards = () => {
                         </Card.Body>
                         <Link to={`/product/${items.id}`} className='text-dark text-decoration-none'>
                             <Button className='w-100'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-cart-check" viewBox="0 0 16 16">
                                     <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
                                     <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                                 </svg>
@@ -51,9 +50,9 @@ const ProductCards = () => {
     }
 
     const showSkeleton = () => {
-        return ([...Array(8)]?.map(n => {
+        return ([...Array(8)]?.map((item, n) => {
             return (
-                <div className="col-md-3">
+                <div className="col-md-3" key={n}>
                     <Card className='me-3  mt-5' style={{ backgroundColor: '#535353' }} >
                         <Card.Body>
                             <Card.Text>
@@ -81,7 +80,7 @@ const ProductCards = () => {
                 </div>
 
                 :
-                < div className='container align-items-center' >
+                < div className='container d-flex justify-content-between align-items-center' >
                     <div className='row'>
                         {showCategory()}
                     </div>
